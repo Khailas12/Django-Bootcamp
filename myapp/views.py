@@ -5,8 +5,10 @@ from myapp.models import Product
 
 
 def home_view(request, *args, **kwargs):
-    print(args, kwargs)
-    return HttpResponse("<h1>Hello world</h1>")
+    context = {
+        'name': 'bruce'
+    }
+    return render(request, 'home.html', context)
 
 
 def product_detail_view(request, pk, *args, **kwargs):  

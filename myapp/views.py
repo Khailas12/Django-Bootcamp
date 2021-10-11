@@ -11,17 +11,21 @@ def home_view(request, *args, **kwargs):
     return render(request, 'home.html', context)
 
 
-def product_detail_view(request, pk, *args, **kwargs):  
+def product_detail_view(request, pk, *args, **kwargs):
     # obj = Product.objects.get(pk=pk)
 
-    try: 
+    try:
         obj = Product.objects.get(pk=pk)
     except Product.DoesNotExist:    # this handles whether it exists or not
         raise Http404('Product does not exist')
-    return HttpResponse(f'Product ID {obj.pk}')
+
+    context = {
+        'object': obj
+    }
+    return render(request, 'products/detail.html', context)
 
 
-def product_json_view(request, pk,  *args, **kwargs):    
+def product_json_view(request, pk,  *args, **kwargs):
     try:
         obj = Product.objects.get(pk=pk)
     except Product.DoesNotExist:

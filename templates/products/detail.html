@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Product Detail</h1>
+
+<ul>
+    <li>{{ object.id }}</li>
+    <li>{{ object.title }}</li>
+
+    {% if object.content %}
+    <li>{{ object.content }}</li>
+
+    {% else %}
+    <p>content to fill</p>
+    {% endif %}
+
+</ul>
+
+
+{% endblock content %}

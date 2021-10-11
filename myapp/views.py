@@ -8,15 +8,19 @@ def home_view(request, *args, **kwargs):
     return HttpResponse("<h1>Hello world</h1>")
 
 
-def product_detail_view(request, id):  
-    obj = Product.objects.get(id=id) 
+def product_detail_view(request, pk, *args, **kwargs):  
+    # obj = Product.objects.get(pk=pk)
+
     try: 
-        obj = Product.objects.get(id=id)
+        obj = Product.objects.get(pk=pk)
     except Product.DoesNotExist:    # this handles whether it exists or not
         raise Http404('Product does not exist')
-    return HttpResponse(f'Product id {obj.id}')
+    return HttpResponse(f'Product pk {obj.pk}')
 
 
-def product_json_view(request, *args, **kwargs):
-    obj = Product.objects.get(id=1)
-    return JsonResponse({'id': obj.id })
+def product_json_view(request, pk,  *args, **kwargs):    
+    try:
+        obj = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return JsonResponse({'message': '404 Not Found'})
+    return JsonResponse({'pk': obj.pkproduct})

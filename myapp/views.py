@@ -1,7 +1,8 @@
 from django.http.response import Http404
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404
-from myapp.models import Product
+from .models import Product
+from .forms import ProductForm
 
 
 # def bad_view(request, *args, **kwargs):
@@ -19,6 +20,7 @@ from myapp.models import Product
 def home_view(request, *args, **kwargs):
     query = request.GET.get('q')
     print(query)
+    # queryset = Product.objects.filter(query[0])
     context = {
         'name': 'bruce',
         'query': query
@@ -26,15 +28,32 @@ def home_view(request, *args, **kwargs):
     return render(request, 'home.html', context)
 
 
+# def product_create_view(request, *args, **kwargs):
+#     print(request.POST)
+#     print(request.GET)
+#     if request.method == 'POST':
+#         post_data = request.POST or None
+
+#         if post_data != None:
+#             prod_form = ProductForm(request.POST)
+#             if prod_form.is_valid():
+#                 title_from_input = prod_form.cleaned_data.get('title')
+#                 Product.objects.create(title=title_from_input)
+
+#     context = {}
+#     return render(request, 'products/forms.html', context)
+
+# this makes it easier compared to the one above to get rid of hard coding base.
 def product_create_view(request, *args, **kwargs):
-    context = {}
-    print(request.POST)
-    print(request.GET)
-    if request.method == 'POST':
-        post_data = request.POST or None
+    form = ProductForm(request.POST or None)    # None excludes the validation error
+    if form.is_valid():
+        print(form.cleaned_data)    # cleaned_data returns a dictionary of validated form input fields and their values, where string primary keys are returned as objects. where validation keys are stored.
+        data = form.cleaned_data
+        Product.objects.create(**data)
         
-        if post_data != None:
-            print(post_data)
+    context = {
+        'form': form
+    }
     return render(request, 'products/forms.html', context)
 
 

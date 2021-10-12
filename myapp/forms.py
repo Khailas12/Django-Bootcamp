@@ -7,6 +7,13 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = [
             'title',
-            'content'
+            'content',
             'price'
         ]
+    
+     # this is called while during the .is_valid() method
+    def clean_title(self): 
+        data = self.cleaned_data.get('title')
+        if len(data) < 4 :
+            raise forms.ValidationError('Minimum 5 characters required')
+        return data

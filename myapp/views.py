@@ -44,13 +44,28 @@ def home_view(request, *args, **kwargs):
 #     return render(request, 'products/forms.html', context)
 
 # this makes it easier compared to the one above to get rid of hard coding base.
-def product_create_view(request, *args, **kwargs):
-    form = ProductForm(request.POST or None)    # None excludes the validation error
-    if form.is_valid():
-        print(form.cleaned_data)    # cleaned_data returns a dictionary of validated form input fields and their values, where string primary keys are returned as objects. where validation keys are stored.
-        data = form.cleaned_data
-        Product.objects.create(**data)
+# def product_create_view(request, *args, **kwargs):
+#     form = ProductForm(request.POST or None)  
+#     if form.is_valid():
+#         print(form.cleaned_data)    # cleaned_data returns a dictionary of validated form input fields and their values, where string primary keys are returned as objects. where validation keys are stored.
+#         data = form.cleaned_data
+#         Product.objects.create(**data)
         
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'products/forms.html', context)
+
+
+#this is the much standard and simplified version of the 2 ones above.
+def product_create_view(request, *args, **kwargs):
+    form = ProductForm(request.POST or None)      # None excludes the validation errors
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.save()
+        
+        form = ProductForm()
+    
     context = {
         'form': form
     }

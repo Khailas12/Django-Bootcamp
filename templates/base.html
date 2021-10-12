@@ -3,10 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Base</title>
+    <title>
+        {% block title %} Base {% endblock title %}
+    </title>
 </head>
 
 <body>
+    {% include 'navbar.html' %}
     {% block content %}
     {% endblock content %}
 </body>

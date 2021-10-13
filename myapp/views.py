@@ -3,8 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404
 from .models import Product
 from .forms import ProductForm
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.admin.views.decorators import staff_member_required     # alternative to login_required
 
 
 # def bad_view(request, *args, **kwargs):
@@ -60,11 +59,12 @@ def home_view(request, *args, **kwargs):
 
 
 #this is the much standard and simplified version of the 2 ones above.
-@login_required
+@staff_member_required    # it forces to login to the admin page and directs to the page we need
 def product_create_view(request, *args, **kwargs):
     form = ProductForm(request.POST or None)      # None excludes the validation errors
     if form.is_valid():
         obj = form.save(commit=False)
+        obj.user = request.user     # calls from the foreginkey in the models.py
         obj.save()
         
         form = ProductForm()

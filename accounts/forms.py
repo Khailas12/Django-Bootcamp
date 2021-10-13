@@ -43,7 +43,7 @@ class RegisterForm(forms.Form):
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        queryset = User.objects.filter(email_iexact=email)
+        queryset = User.objects.filter(email__iexact=email)
         
         if queryset.exists():
             return forms.ValidationError('This email already exists, try another one')

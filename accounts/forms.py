@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from django.db.models import query
 
 
 User = get_user_model()     # all follows the one assigned on db using terminal.

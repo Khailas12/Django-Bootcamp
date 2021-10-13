@@ -5,7 +5,9 @@ from myapp.views import (
     home_view, product_detail_view, product_json_view, product_list_view, product_create_view
     )
 
-from accounts.views import (login_view)
+from accounts.views import (
+    login_view, logout_view, register_view
+    )
 
 
 urlpatterns = [
@@ -18,7 +20,9 @@ urlpatterns = [
     path('product/create/', product_create_view, name='create'),
     
     # from accounts.view
-    path('login/', login_view, name='login'),   
-    
+    path('login/', login_view, name='login'),  
+    path('logout/', logout_view, name='logout'),
+    path('register/', register_view, name='register'),
+     
     path('admin/', admin.site.urls),
 ]

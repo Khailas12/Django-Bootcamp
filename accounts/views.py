@@ -1,6 +1,32 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm, User
+
+
+def register_view(request, *args, **kwargs):
+    form = RegisterForm(request.POST or None)
+    
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        password1 = form.cleaned_data.get('password1')
+        password2 = form.cleaned_data.get('password2')
+        
+        try:
+            user = User.objects.create_user(username, email, password1)
+        except:
+            user = None
+            
+        if user == None:
+            request.session['register_error'] = 1
+        
+        else:
+            login(request, user)
+            return redirect('/')
+        
+    context = {'form': form}
+    return render(request, 'products/forms.html', context)
+            
 
 
 def login_view(request, *args,**kwargs):
@@ -23,7 +49,7 @@ def login_view(request, *args,**kwargs):
             return redirect('/')
     
     context = {'form': form}
-    return render(redirect, 'forms.html', context)
+    return render(request, 'products/forms.html', context)
     
     
 def logout_view(request):

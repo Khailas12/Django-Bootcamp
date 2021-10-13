@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404
 from .models import Product
 from .forms import ProductForm
+from django.contrib.auth.decorators import login_required
+
 
 
 # def bad_view(request, *args, **kwargs):
@@ -58,6 +60,7 @@ def home_view(request, *args, **kwargs):
 
 
 #this is the much standard and simplified version of the 2 ones above.
+@login_required
 def product_create_view(request, *args, **kwargs):
     form = ProductForm(request.POST or None)      # None excludes the validation errors
     if form.is_valid():

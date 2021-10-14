@@ -1,9 +1,9 @@
 from django.test import TestCase
-from accounts.forms import User
+from django.contrib.auth import get_user_model
 from django.conf import settings    # this is imported for testing the LOGIN_URL assigned in there
 
 
-# User = get_user_model
+User = get_user_model()
 
 # TDD
 
@@ -12,14 +12,14 @@ class UserTestCase(TestCase):
         user_a = User(username='brucewayne', email='brucewayne123@gmail.com')
         user_a_pswd = 'some_password'
         
-        self.user_a = user_a
         self.user_a_pswd = user_a_pswd
         
         # similar to User.objects.create() or create_user()
         user_a.is_staff = True
         user_a.is_superuser = True
-        user_a.save()
         user_a.set_password(user_a_pswd)
+        user_a.save()
+        self.user_a = user_a
         print(user_a.id)
         
     # the func name should begin with test and the rest can be anything after first underscore
@@ -29,14 +29,20 @@ class UserTestCase(TestCase):
         self.assertNotEqual(user_count, 0)  # !=
         
         
+    # def test_user_password(self):
+    #     # user_queryset = User.objects.filter(username__iexact='brucewayne')
+    #     # user_exists = user_queryset.exists() and user_queryset.count() == 1
+    #     # self.assertTrue(user_exists)    # true/false
+        
+    #     # user_a = user_queryset.first()
+    #     self.assertTrue(self.user_a.check_password(self.user_a_pswd))   # checking password
+        
     def test_user_password(self):
-        # user_queryset = User.objects.filter(username__iexact='brucewayne')
-        # user_exists = user_queryset.exists() and user_queryset.count() == 1
-        # self.assertTrue(user_exists)    # true/false
-        
-        # user_a = user_queryset.first()
-        self.assertTrue(self.user_a.check_password(self.user_a_pswd))   # checking password
-        
+        user_a = User.objects.get(username='brucewayne')
+        self.assertEqual(
+            user_a.check_password(self.user_a_pswd)
+        )
+    
     
     def test_login_url(self):
         # login_url = '/login'

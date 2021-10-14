@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django import forms
 
 
-User = get_user_model()     # all follows the one assigned on db using terminal.
+User = get_user_model()     #fetches info from the db to validate whether the user's existance
+
 not_allowed_username = ['abc']
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(max_length=60)
     email = forms.EmailField(required=True)
     password1 = forms.CharField(
         label='Password',
@@ -29,6 +30,9 @@ class RegisterForm(forms.Form):
         )
     )
     
+    def __str__(self):
+        return self.username
+    
     def clean_username(self):
         username = self.cleaned_data.get('username')
         queryset = User.objects.filter(username__iexact=username) 
@@ -47,8 +51,6 @@ class RegisterForm(forms.Form):
         
         if queryset.exists():
             return forms.ValidationError('This email already exists, try another one')
-        return email
-            
             
 
 class LoginForm(forms.Form):
@@ -64,8 +66,9 @@ class LoginForm(forms.Form):
     
     # to authenticate and verifiy
     # def clean(self):    
-    #     username = self.cleaned_data.get('username')
-    #     password = self.cleaned_data.get('password')
+    #     data = super().clean() 
+    #     username = data.get('username')
+    #     password = data.get('password')
 
 
     def clean_username(self):
@@ -74,7 +77,9 @@ class LoginForm(forms.Form):
         
         if not queryset.exists():
             raise forms.ValidationError('This is an Invalid User')
+
+        if queryset.count != 1:
+            raise forms.ValidationError('This is an invalid user')
         return username
-    
     
 # for usename and email

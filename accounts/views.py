@@ -11,14 +11,13 @@ def register_view(request, *args, **kwargs):
         email = form.cleaned_data.get('email')
         password1 = form.cleaned_data.get('password1')
         password2 = form.cleaned_data.get('password2')
-        user = User.objects.create_user(username=username)
         
         try:
             user = User.objects.create_user(username, email, password1)
         except:
             user = None
             
-        if user == None:
+        if user == None:    
             request.session['register_error'] = 1
         
         else:
@@ -34,8 +33,8 @@ def login_view(request, *args,**kwargs):
     form = LoginForm(request.POST or None)
     
     if form.is_valid():
-        username = form.cleaned_data('username')
-        password = form.cleaned_data('password')
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)    
         
         if user == None:    # if invalid username or pswd

@@ -39,7 +39,7 @@ class UserTestCase(TestCase):
         
     def test_user_password(self):
         user_a = User.objects.get(username='brucewayne')
-        self.assertEqual(
+        self.assertTrue(
             user_a.check_password(self.user_a_pswd)
         )
     

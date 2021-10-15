@@ -12,4 +12,12 @@ class Product(models.Model):
     
     title = models.CharField(max_length=120)
     content = models.TextField(null=True, blank=False)
-    price = models.IntegerField(default=0)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00
+        )   # 4.00
+    
+    # inventory is a process to track the goods throughout the entire supply chain. From purchasing to end sales.
+    inventory = models.IntegerField(default=0)
+    def has_inventory(self):
+        return self.inventory > 0
+            

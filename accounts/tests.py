@@ -8,7 +8,7 @@ User = get_user_model()
 # TDD
 
 class UserTestCase(TestCase):
-    def setUp(self):    # python's builtin unittest
+    def setUp(self):    # setUp python's builtin unittest 
         user_a = User(username='brucewayne', email='brucewayne123@gmail.com')
         user_a_pswd = 'some_password'
         
@@ -18,6 +18,7 @@ class UserTestCase(TestCase):
         user_a.is_staff = True
         user_a.is_superuser = True
         user_a.set_password(user_a_pswd)
+        
         user_a.save()
         self.user_a = user_a
         print(user_a.id)
@@ -55,7 +56,8 @@ class UserTestCase(TestCase):
             'username': 'brucewayne',
             'password': self.user_a_pswd
         }
-        response = self.client.post(login_url, data, follow=True)
+        response = self.client.post(login_url, data, follow=True)    # follow=True -> it follow the redirect that may hppn in login url itself, so it stays with the view until it redirects
+        
         # print(dir(response))
         print(response.request)
         status_code = response.status_code

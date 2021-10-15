@@ -29,6 +29,7 @@ class ProductTestCase(TestCase):
         user_count = User.objects.all().count()
         self.assertEqual(user_count, 2)
         
+        
     def test_invalid_request(self): # logged in session
         self.client.login(username=self.user_b.username, password='user1234')
         response = self.client.post(

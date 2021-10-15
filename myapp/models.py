@@ -18,6 +18,8 @@ class Product(models.Model):
     
     # inventory is a process to track the goods throughout the entire supply chain. From purchasing to end sales.
     inventory = models.IntegerField(default=0)
+    featured = models.BooleanField(default=False)
+    
     def has_inventory(self):
         return self.inventory > 0
             

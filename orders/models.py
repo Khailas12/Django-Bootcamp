@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from myapp.models import Product
-
+from django.db.models.signals import pre_save, post_save
 
 User = get_user_model()
 
@@ -26,4 +26,43 @@ class Order(models.Model):
     
     shipping_address = models.TextField(blank=False, null=True)
     billing_address = models.TextField(blank=False, null=True)
-    timespamp = models.DateTimeField(auto_now_add=True)
+    timespamp = models.DateTimeField(auto_now_add=True)\
+        
+        
+    # signals
+    def calculate(self, save=False):
+        if not self.product:
+            return {}
+        
+        subtotal = self.product.price
+        tax_rate = 0.12
+        tax_total = subtotal * tax_rate
+        tax_total = float("%.2f" %(tax_total))
+        
+        total = self.price + tax_total
+        total = float("%.2f"%(total))
+        
+        totals = {
+            'subtotal': subtotal,
+            'tax_total': tax_total,
+            'total': total
+        }
+        
+        for key, value in totals.items():
+            setattr(self, key, value)
+            if save == True:
+                self.save()
+        return totals
+    
+    
+    
+def order_pre_save(sender, instance, *args, **kwargs):
+    instance.calculate(save=False)
+    
+pre_save.connect(order_pre_save, sender=Order)
+
+
+def order_post_save(sender, instance, created, *args, **kwargs):
+    instance.calculate(save=False)
+    
+post_save.connect(order_post_save, sender=Order)

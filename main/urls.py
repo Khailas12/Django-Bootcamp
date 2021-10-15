@@ -10,6 +10,8 @@ from accounts.views import (
     login_view, logout_view, register_view
     )
 
+from orders.views import order_checkout_view
+
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -19,6 +21,8 @@ urlpatterns = [
     re_path(r'productjson/(?P<pk>\d+)/', product_json_view, name='prodjson'),
     path('productlist/', product_list_view, name='prodlist'),
     path('product/create/', product_create_view, name='create'),
+    
+    path('checkout/', order_checkout_view, name='checkout'),
     
     # from accounts.view
     path('login/', login_view, name='login'),  

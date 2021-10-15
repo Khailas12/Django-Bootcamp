@@ -39,5 +39,8 @@ def order_checkout_view(request, *args, **kwargs):
         order_obj.billing_address = form.cleaned_data.get('billing_address')
         order_obj.save()
         
-    context = {'form': form}
-    return render(request, 'products/forms.html', context)
+    context = {
+        'form': form,
+        'object': order_obj
+        }
+    return render(request, 'orders/checkout.html', context)

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from myapp.models import Product
 from django.db.models.signals import pre_save, post_save
+from decimal import Decimal
 
 User = get_user_model()
 
@@ -35,16 +36,16 @@ class Order(models.Model):
             return {}
         
         subtotal = self.product.price
-        tax_rate = 0.12
+        tax_rate = Decimal(0.12)
         tax_total = subtotal * tax_rate
-        tax_total = float("%.2f" %(tax_total))
+        tax_total = Decimal("%.2f" %(tax_total))
         
-        total = self.price + tax_total
-        total = float("%.2f"%(total))
+        total = subtotal + tax_total
+        total = Decimal("%.2f"%(total))
         
         totals = {
             'subtotal': subtotal,
-            'tax_total': tax_total,
+            'tax': tax_total,
             'total': total
         }
         
@@ -55,14 +56,14 @@ class Order(models.Model):
         return totals
     
     
-    
 def order_pre_save(sender, instance, *args, **kwargs):
     instance.calculate(save=False)
     
 pre_save.connect(order_pre_save, sender=Order)
 
 
-def order_post_save(sender, instance, created, *args, **kwargs):
-    instance.calculate(save=False)
+# def order_post_save(sender, instance, created, *args, **kwargs):
+#     if created:
+#         instance.calculate(save=True)
     
-post_save.connect(order_post_save, sender=Order)
+# post_save.connect(order_post_save, sender=Order)

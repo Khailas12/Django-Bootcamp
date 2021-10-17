@@ -4,6 +4,7 @@ from myapp.models import Product
 from django.db.models.signals import pre_save, post_save
 from decimal import Decimal
 
+
 User = get_user_model()
 
 ORDER_STATUS_CHOICES = (
@@ -36,7 +37,7 @@ class Order(models.Model):
         paid_amount = self.total
         if custom_amount != None:
             paid_amount = custom_amount
-            
+
         self.paid = paid_amount
         self.status = 'paid'
         

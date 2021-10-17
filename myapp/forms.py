@@ -8,7 +8,9 @@ class ProductForm(forms.ModelForm):
         fields = [
             'title',
             'content',
-            'price'
+            'price',
+            'image',
+            'media',
         ]
     
      # this is called while during the .is_valid() method

@@ -61,9 +61,18 @@ def home_view(request, *args, **kwargs):
 #this is the much standard and simplified version of the 2 ones above.
 @staff_member_required    # it forces to login to the admin page and directs to the page we need
 def product_create_view(request, *args, **kwargs):
-    form = ProductForm(request.POST or None)      # None excludes the validation errors
+    # request.FILES = handles the file upload
+    form = ProductForm(request.POST or None, request.FILES or None)      # None excludes the validation errors
     if form.is_valid():
         obj = form.save(commit=False)
+        image = request.FILES.get('image')
+        media = request.FILES.get('media')
+        
+        if image:
+            obj.image = image  # reflects in the html accordingly
+        if media:
+            obj.media = media
+                                
         obj.user = request.user     # calls from the foreginkey in the models.py
         obj.save()
         

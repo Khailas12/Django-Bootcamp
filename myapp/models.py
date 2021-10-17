@@ -1,15 +1,8 @@
 from django.db import models
 from django.conf import settings
-from .storages import ProtectedStorage
 
 
 User = settings.AUTH_USER_MODEL
-
-# def get_storage_location():
-#     if settings.DEBUG:
-#         return ProtectedStorage()
-#     return LiveProtectedStorage()
-
 
 class Product(models.Model):
     # foreginkey corelate two tables together. product table with user table in here
@@ -20,7 +13,6 @@ class Product(models.Model):
 <<<<<<< HEAD
 =======
     image = models.ImageField(upload_to='products/', null=True, blank=True)
-    media = models.FileField(storage=ProtectedStorage, upload_to='products/', null=True, blank=True)
     
 >>>>>>> parent of fdf1e2e (updated)
     title = models.CharField(max_length=120)

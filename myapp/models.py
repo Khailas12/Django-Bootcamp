@@ -12,10 +12,13 @@ class Product(models.Model):
     
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     
 >>>>>>> parent of fdf1e2e (updated)
+=======
+>>>>>>> parent of 8fc22d6 (static files and updated all over)
 =======
 >>>>>>> parent of 8fc22d6 (static files and updated all over)
     title = models.CharField(max_length=120)

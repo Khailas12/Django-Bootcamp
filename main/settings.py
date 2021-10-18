@@ -128,6 +128,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
+
+STATIC_ROOT = BASE_DIR / 'cdn_test' / 'static'
+
+MEIDA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'cdn_test' / 'media'   # file field upload by default
+
+PROTECTED_MEDIA = BASE_DIR / 'cdn_test' / 'protected'
+
+if DEBUG:
+    STATIC_ROOT.mkdir(parents=True, exist_ok=True) 
+    MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
+    STATIC_ROOT.mkdir(parents=True, exist_ok=True)
+    
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

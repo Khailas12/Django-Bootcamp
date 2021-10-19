@@ -8,11 +8,7 @@ class ProductForm(forms.ModelForm):
         fields = [
             'title',
             'content',
-            'image',
-            'media',
-        ]
-        exclude = [
-            'price',
+            'price'
         ]
     
      # this is called while during the .is_valid() method

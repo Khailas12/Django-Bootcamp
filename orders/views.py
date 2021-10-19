@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Order
 from myapp.models import Product
 from .forms import OrderForm
+from django.http import Http404, HttpResponse, response
+import pathlib
+from wsgiref.util import FileWrapper
+from mimetypes import guess_type    # mimetypes converts btwn a filename or URL and the MIME type associated with the filename extension
 
 
 @login_required
@@ -44,3 +48,38 @@ def order_checkout_view(request, *args, **kwargs):
         'object': order_obj
         }
     return render(request, 'orders/checkout.html', context)
+
+
+# downloading the media
+def download_order(required, *args, **kwargs):
+    order_id = 'abc'
+    # media__isnull=False makes it to validate whether the media exists or not before calling
+    queryset = Product.objects.filter(media__isnull=False)
+    product_obj = queryset.first()
+    
+    if not product_obj.media:
+        raise Http404
+    
+    media = product_obj.media
+    product_path = media.path
+    path = pathlib.Path(product_path)   # os.path
+    
+    pk = product_obj.pk     # pk -> primary key
+    extension = path.suffix     # extension like .csv, .jpg, .png etc
+    file_name = f'The-Product-{order_id}-{pk}{extension}'
+    
+    
+    if not path.exists():
+        raise Http404
+    
+    with open(path,'rb') as f:  # rb mode-> reading as bytes, to send it back as bytes
+        wrapper = FileWrapper(f)
+        content_type = 'application/force-download'
+        guessed_ = guess_type(path)[0]     # it guesses the extension and confirms it
+        if guessed_:
+            content_type = guessed_
+            
+        response = HttpResponse(wrapper, content_type=content_type)
+        response['Content-Disposition'] = f'attachment;{file_name}'     # this makes the browser to realize to download the file
+        response['X-SendFile'] = f'{file_name}'
+        return response

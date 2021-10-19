@@ -1,8 +1,15 @@
 from django.db import models
 from django.conf import settings
+from .storages import ProtectedStorage
 
 
 User = settings.AUTH_USER_MODEL
+
+# def get_storage_model():
+#     if settings.DEBUG:
+#         return ProtectedStorage()
+#     return LiveProtectedStorage()   # in live production
+
 
 class Product(models.Model):
     # foreginkey corelate two tables together. product table with user table in here
@@ -10,10 +17,11 @@ class Product(models.Model):
     
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE) # it deletes everything including the existing object once the user is deleted
     
-
-    image = models.ImageField(upload_to='products/', null=True, blank=True)
     
-
+    image = models.ImageField(upload_to='products/', null=True, blank=True)     # this uploads to the location in static dir instead of storing it in the db
+    
+    media = models.FileField(storage=ProtectedStorage, upload_to='products/', blank=True, null=True)
+    
     title = models.CharField(max_length=120)
     content = models.TextField(null=True, blank=False)
     price = models.DecimalField(

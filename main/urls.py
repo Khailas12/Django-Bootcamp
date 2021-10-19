@@ -12,7 +12,7 @@ from accounts.views import (
     login_view, logout_view, register_view
     )
 
-from orders.views import order_checkout_view
+from orders.views import order_checkout_view, download_order
 
 
 urlpatterns = [
@@ -20,11 +20,12 @@ urlpatterns = [
     path('product/<int:pk>/', product_detail_view, name='productdetails'),  # pk -> primary key
     # path('productjson/<int:id>/', product_json_view, name='productjson'),
     
+    path('checkout/', order_checkout_view, name='checkout'),
+    path('download/', download_order, name='download'),
+    
     re_path(r'productjson/(?P<pk>\d+)/', product_json_view, name='prodjson'),
     path('productlist/', product_list_view, name='prodlist'),
     path('product/create/', product_create_view, name='create'),
-    
-    path('checkout/', order_checkout_view, name='checkout'),
     
     # from accounts.view
     path('login/', login_view, name='login'),  

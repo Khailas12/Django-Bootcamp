@@ -12,9 +12,6 @@ def order_checkout_view(request, *args, **kwargs):
         return redirect('/')    # redirects if featured is false or some other reasons.
 
     product = queryset.first()
-    # if not product.has_inventory():
-    #     return redirect('/no-inventory')
-    
     user = request.user
     
     order_id = request.session.get('order_id')
@@ -40,13 +37,7 @@ def order_checkout_view(request, *args, **kwargs):
     if form.is_valid():
         order_obj.shipping_address = form.cleaned_data.get('shipping_address')
         order_obj.billing_address = form.cleaned_data.get('billing_address')
-        
-        order_obj.mark_paid(save=False)
-        # order_obj.status = 'paid'
         order_obj.save()
-        
-        del request.session['order_id']  # clears and refreshes the input area after succesful checkouts.
-        return redirect('/success')
         
     context = {
         'form': form,

@@ -27,27 +27,7 @@ class Order(models.Model):
     
     shipping_address = models.TextField(blank=False, null=True)
     billing_address = models.TextField(blank=False, null=True)
-    timespamp = models.DateTimeField(auto_now_add=True)
-    
-    inventory_updated = models.BooleanField(default=False)
-    
-    
-    def mark_paid(self, custom_amount=None, save=False):
-        paid_amount = self.total
-        if custom_amount != None:
-            paid_amount = custom_amount
-            
-        self.paid = paid_amount
-        self.status = 'paid'
-        
-        if not self.inventory_updated and self.product:
-            self.product.remove_item_from_inventory(count=1, save=True)    
-            self.inventory_updated = True
-            
-        if save == True:
-            self.save()
-            
-        return self.paid
+    timespamp = models.DateTimeField(auto_now_add=True)\
         
         
     # signals

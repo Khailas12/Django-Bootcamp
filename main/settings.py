@@ -127,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
@@ -142,6 +143,8 @@ if DEBUG:
     MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
     STATIC_ROOT.mkdir(parents=True, exist_ok=True)
     
+=======
+>>>>>>> parent of 8fc22d6 (static files and updated all over)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

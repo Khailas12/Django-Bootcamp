@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from os import mkdir
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -127,6 +128,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ['staticfiles']
+
+STATIC_ROOT = BASE_DIR / 'cdn_test' / 'static'  # app related. AWS, azure or google cloud related django storages
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'cdn_test' / 'media'    # user uploaded files
+
+
+PROTECTED_MEDIA = BASE_DIR / 'cdn_test' / 'protected'   # also user uploaded but protected that no one could get
+
+
+if DEBUG:
+    STATIC_ROOT.mkdir(parents=True, exist_ok=True)
+    MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
+    PROTECTED_MEDIA.mkdir(parents=True, exist_ok=True)
 
 
 # Default primary key field type

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from myapp.views import (
-    home_view, product_detail_view, product_json_view, product_list_view, product_create_view
+    home_view, product_detail_view, product_json_view, product_list_view, product_create_view, product_featured_view
     )
 
 from accounts.views import (
@@ -16,10 +16,12 @@ from orders.views import order_checkout_view, download_order
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', product_featured_view, name='home'),
+    
     path('product/<int:pk>/', product_detail_view, name='productdetails'),  # pk -> primary key
     # path('productjson/<int:id>/', product_json_view, name='productjson'),
-    
+
     path('checkout/', order_checkout_view, name='checkout'),
     path('download/', download_order, name='download'),
     

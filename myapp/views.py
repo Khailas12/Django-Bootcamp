@@ -6,16 +6,18 @@ from .forms import ProductForm
 from django.contrib.admin.views.decorators import staff_member_required     # alternative to login_required
 
 
-# def bad_view(request, *args, **kwargs):
-#     print(request.GET)
-#     my_request_data = dict(request.GET)
-#     new_produdct = my_request_data.get('new product')
-#     print(my_request_data, new_produdct)
-
-#     if new_produdct[0].lower() == 'true':
-#         print('new prod')
-#         Product.objects.create(title=my_request_data.get('title')[0], content=my_request_data.get('content')[0])
-#     return HttpResponse('bad view')
+def product_featured_view(request, *args, **kwargs):
+    queryset = Product.objects.filter(featured=True)
+    product = None
+    
+    if queryset.exists():
+        product = queryset.first()
+    
+    context = {
+        'product': product,
+        'form': None,
+    }
+    return render(request, 'products/featured.html', context)
 
 
 def home_view(request, *args, **kwargs):

@@ -36,9 +36,9 @@ def product_featured_view(request, *args, **kwargs):
     context = {
         'product': product,
         'can_order': can_order,
-        'email_form': form,
+        'form': form,
     }
-    return render(request, 'products/featured.html', context)
+    return render(request, 'products/detail.html', context)
 
 
 def home_view(request, *args, **kwargs):

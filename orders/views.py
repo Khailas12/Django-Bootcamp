@@ -57,6 +57,7 @@ def order_checkout_view(request, *args, **kwargs):
         order_obj.save()
         
         del request.session['order_id']
+        request.session['checkout_success_order_id'] = order_obj.id
         return redirect('/success')
         
     context = {
@@ -68,6 +69,7 @@ def order_checkout_view(request, *args, **kwargs):
 
 
 # downloading the media
+@login_required
 def download_order(required, *args, **kwargs):
     order_id = 'abc'
     # media__isnull=False makes it to validate whether the media exists or not before calling

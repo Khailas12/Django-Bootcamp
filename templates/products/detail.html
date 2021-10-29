@@ -2,17 +2,18 @@
 
 {% block content %}
 
-<h1>Product Detail</h1>
+{% include 'products/snippets/product_detail.html' with object=object %}
 
-<ul>
 
-    <li>{{ object.id }}</li>
-    
-    <li>{{ object.title }}</li>
-    
-    <li>{% include 'products/detail_snippet.html' with object=object %}</li>
+{% if can_order %}
+<a href='/checkout'>${{ product.price }} Purchase</a>
 
-</ul>
+{% else %}
 
+    {% if form %}
+        {% include 'snippets/form.html' with form=form submit_btn='Add to waitlist' %}
+    {% endif %}
+
+{% endif %}
 
 {% endblock content %}

@@ -1,0 +1,14 @@
+<!--enctype is a built in library method would allow the django view to get any files that are related to the form itself which sends the data without any encoding-->
+<form method="POST" action="." enctype="multipart/form-data"> {% csrf_token %}
+
+    <!-- <input type='text' name='title' /> -->
+    {{ form.as_p }}
+    <!--as_p = as paragraph-->
+
+    <button type='submit'>
+        {% if submit_btn %}{{ submit_btn }}
+
+        {% else %}Submit{% endif %}
+
+    </button>
+</form>

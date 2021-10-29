@@ -5,19 +5,26 @@
 {% if product %}
 
 <h1>
-    {{ product.html }}
+    {{ product.title }}
 
     {% if product.image %}
     {{ product.image }}
+
     {% endif %}
 </h1>
 
 <p>
     {{ product.description }}
+    
+    {% if product.can_order %}
+    <a href='/checkout'>
+        {{ product.price }} 
+        Purchase</a>
+{% endif %}
+
 </p>
-
+    
 {% else %}
-
 
 {% endif %}
 

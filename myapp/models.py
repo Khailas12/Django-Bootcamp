@@ -34,6 +34,10 @@ class Product(models.Model):
     can_backorder = models.BooleanField(default=False)
     
     @property
+    def digital(self):
+        return self.media != None
+    
+    @property
     def can_order(self):
         if self.has_inventory():
             return True

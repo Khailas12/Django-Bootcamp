@@ -1,15 +1,18 @@
 from django.http.response import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, Http404
+from django.contrib.admin.views.decorators import staff_member_required     # alternative to login_required
+
+from emails.forms import InventoryWaitlistForm
 from .models import Product
 from .forms import ProductForm
-from django.contrib.admin.views.decorators import staff_member_required     # alternative to login_required
 
 
 def product_featured_view(request, *args, **kwargs):
     queryset = Product.objects.filter(featured=True)
     product = None
     can_order = False
+    form = None
     
     if queryset.exists():
         product = queryset.first()
@@ -20,10 +23,20 @@ def product_featured_view(request, *args, **kwargs):
             product_id = product.id
             request.session['product_id'] = product_id
         
+        form = InventoryWaitlistForm(request.POST or None, product=product) 
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.product = product
+            
+            if request.user.is_authenticated:
+                obj.user = request.user
+            obj.save()
+            return redirect('/waitlist-success')
+        
     context = {
         'product': product,
         'can_order': can_order,
-        'form': None,
+        'email_form': form,
     }
     return render(request, 'products/featured.html', context)
 
@@ -34,7 +47,7 @@ def home_view(request, *args, **kwargs):
     # queryset = Product.objects.filter(query[0])
     context = {
         'name': 'bruce',
-        'query': query
+        'query': query,
     }
     return render(request, 'home.html', context)
 

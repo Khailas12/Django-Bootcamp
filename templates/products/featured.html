@@ -2,28 +2,17 @@
 
 {% block content %}
 
-{% if product %}
+{% if can_order %}
+    <h1>
+        {{ product.title }}
 
-<h1>
-    {{ product.title }}
+        {% if product.image %}{{ product.image }}
+        {% endif %}
+    </h1>
 
-    {% if product.image %}
-    {{ product.image }}
+    <p>{{ product.description }}</p>
+    <a href='/checkout'>${{ product.price }} Purchase</a>
 
-    {% endif %}
-</h1>
-
-<p>
-    {{ product.description }}
-    
-    {% if product.can_order %}
-    <a href='/checkout'>
-        {{ product.price }} 
-        Purchase</a>
-{% endif %}
-
-</p>
-    
 {% else %}
 
 {% endif %}

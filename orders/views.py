@@ -11,13 +11,23 @@ from mimetypes import guess_type    # mimetypes converts btwn a filename or URL 
 
 @login_required
 def order_checkout_view(request, *args, **kwargs):
-    queryset = Product.objects.filter(featured=True)    # filters which products they see on a page.
-    if not queryset.exists():
-        return redirect('/')    # redirects if featured is false or some other reasons.
-
-    product = queryset.first()
-    user = request.user
+    product_id = request.session.get('product_id') or None
+    if product_id == None:
+        return redirect('/')
     
+    # queryset = Product.objects.filter(id=product_id)
+    # if not queryset.exist():
+    #     return redirect("/")
+    
+    # product = queryset.first()
+    product = None
+    
+    try:
+        product = Product.objects.get(id=product_id)
+    except:
+        return redirect('/')
+    
+    user = request.user
     order_id = request.session.get('order_id')
     order_obj = None
     new_creation = False

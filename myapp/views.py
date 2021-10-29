@@ -9,12 +9,20 @@ from django.contrib.admin.views.decorators import staff_member_required     # al
 def product_featured_view(request, *args, **kwargs):
     queryset = Product.objects.filter(featured=True)
     product = None
+    can_order = False
     
     if queryset.exists():
         product = queryset.first()
     
+    if product != None:
+        can_order = product.can_order
+        if can_order:
+            product_id = product.id
+            request.session['product_id'] = product_id
+        
     context = {
         'product': product,
+        'can_order': can_order,
         'form': None,
     }
     return render(request, 'products/featured.html', context)

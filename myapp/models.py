@@ -19,6 +19,7 @@ class Product(models.Model):
     
     
     image = models.ImageField(upload_to='products/', null=True, blank=True)     # this uploads to the location in static dir instead of storing it in the db
+    video_link = models.TextField(blank=True, null=True)
     
     media = models.FileField(storage=ProtectedStorage, upload_to='products/', blank=True, null=True)
     
@@ -44,6 +45,15 @@ class Product(models.Model):
         elif self.can_backorder:
             return True
         return False
+    
+    @property
+    def order_btn_title(self):
+        if self.can_order and not self.has_inventory():
+            return 'Backorder'
+        
+        if not self.can_order:
+            return 'Cannot Purchase'
+        return 'Purchase'
 
     def has_inventory(self):
         return self.inventory > 0

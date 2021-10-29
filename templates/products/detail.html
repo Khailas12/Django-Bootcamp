@@ -2,11 +2,13 @@
 
 {% block content %}
 
-{% include 'products/snippets/product_detail.html' with object=object %}
+{% include 'products/snippets/product_detail.html' with object=product %}
 
 
 {% if can_order %}
-<a href='/checkout'>${{ product.price }} Purchase</a>
+    <a href='/checkout'>${{ product.price }} 
+    {{ product.order_btn_title }}
+    </a>
 
 {% else %}
 

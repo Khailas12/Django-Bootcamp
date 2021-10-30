@@ -27,8 +27,7 @@ class Order(models.Model):
     
     shipping_address = models.TextField(blank=False, null=True)
     billing_address = models.TextField(blank=False, null=True)
-    timespamp = models.DateTimeField(auto_now_add=True)\
-        
+    timespamp = models.DateTimeField(auto_now_add=True)        
         
     # signals
     def calculate(self, save=False):

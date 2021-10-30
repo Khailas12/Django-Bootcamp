@@ -58,7 +58,6 @@ class Product(models.Model):
     def has_inventory(self):
         return self.inventory > 0
         # return False
-    
+
     def __str__(self):
         return self.title
-            

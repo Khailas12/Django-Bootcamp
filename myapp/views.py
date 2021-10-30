@@ -27,7 +27,7 @@ def product_featured_view(request, *args, **kwargs):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.product = product
-            
+           
             if request.user.is_authenticated:
                 obj.user = request.user
             obj.save()

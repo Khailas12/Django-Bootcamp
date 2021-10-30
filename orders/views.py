@@ -45,8 +45,8 @@ def order_checkout_view(request, *args, **kwargs):
     if order_obj != None and new_creation == False:
         if order_obj.product.id != product.id:  # has order id
             order_obj = Order.objects.create(product=product, user=user)
-    request.session['order_id'] = order_obj.id
     
+    request.session['order_id'] = order_obj.id
     form = OrderForm(request.POST or None, product=product, instance=order_obj)
     
     if form.is_valid():
@@ -55,7 +55,7 @@ def order_checkout_view(request, *args, **kwargs):
         
         order_obj.mark_paid(save=False)
         order_obj.save()
-        
+    
         del request.session['order_id']
         request.session['checkout_success_order_id'] = order_obj.id
         return redirect('/success')

@@ -27,38 +27,8 @@ class Order(models.Model):
     
     shipping_address = models.TextField(blank=False, null=True)
     billing_address = models.TextField(blank=False, null=True)
-    timespamp = models.DateTimeField(auto_now_add=True)      
+    timespamp = models.DateTimeField(auto_now_add=True)        
         
-    
-    def get_absolute_url(self):
-        return f'/orders/{self.pk}'
-    
-    def get_download_url(self):
-        return f'/orders/{self.pk}/download/'
-    
-    @property
-    def is_downloadable(self):
-        if not self.product:
-            return False
-        if self.product.is_digital:
-            return True
-        return False
-    
-    def mark_paid(self, custom_amount=None, save=False):
-        paid_amount = self.total
-        if custom_amount != None:
-            paid_amount = custom_amount
-        self.paid = paid_amount
-        self.status = 'paid'
-        
-        if not self.inventory_updated and self.product:
-            self.product.remove_items_from_inventory(count=1, save=True)
-            self.inventory_updated = True
-
-        if save == True:
-            self.save()        
-        return self.paid
-    
     # signals
     def calculate(self, save=False):
         if not self.product:

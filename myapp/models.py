@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.expressions import F
 from .storages import ProtectedStorage
 
 
@@ -33,10 +34,16 @@ class Product(models.Model):
     inventory = models.IntegerField(default=0)
     featured = models.BooleanField(default=False)
     can_backorder = models.BooleanField(default=False)
+    requires_shipping = models.BooleanField(default=False)
+    
     
     @property
     def digital(self):
-        return self.media != None
+        return self.media != None or self.media != ''
+    
+    # @property
+    # def requires_shipping(self):
+    #     return not self.is_digital
     
     @property
     def can_order(self):

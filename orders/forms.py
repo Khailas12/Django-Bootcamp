@@ -44,11 +44,11 @@ class OrderForm(forms.ModelForm):
                 raise forms.ValidationError('This product cannot be ordered')
         
             if (self.product.requires_shipping and shipping_addr) == '' or (self.product.requires_shipping and shipping_addr == None):
-                # self.add_error(
-                #     'shipping address',
-                #     'Enter your shipping address'
-                # )
-                raise forms.ValidationError(
+                self.add_error(
+                    'shipping address',
                     'Enter your shipping address'
                 )
+                # raise forms.ValidationError(
+                #     'Enter your shipping address'
+                # )
         return cleaned_data

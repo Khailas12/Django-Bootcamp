@@ -13,7 +13,7 @@
 
 
     {% if product.content %}
-    <p>{{ product.content }}</p>
+    <pre><code></code>{{ product.content|linebreaks }}</pre>
     {% endif %}
 
     {% if show_price %}

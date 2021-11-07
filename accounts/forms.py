@@ -13,7 +13,8 @@ class RegisterForm(forms.Form):
         max_length=60,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',                'id': 'username'
+                'class': 'form-control',                
+                'id': 'username'
             }
         )
     )

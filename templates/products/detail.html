@@ -2,20 +2,25 @@
 
 {% block content %}
 
-{% include 'products/snippets/product_detail.html' with object=product %}
+<div clas='row'>
+    <div class='col'>
+        {% include 'products/snippets/product_detail.html' with object=product %}
+    </div>
+        
+    <div class='col'>
+        {% if can_order %}
+        <a class='btn btn-primary' href='/checkout'>${{ product.price }}
+            {{ product.order_btn_title }}
+        </a>
+        
+        {% else %}
 
-
-{% if can_order %}
-    <a href='/checkout'>${{ product.price }} 
-    {{ product.order_btn_title }}
-    </a>
-
-{% else %}
-
-    {% if form %}
+        {% if form %}
         {% include 'snippets/form.html' with form=form submit_btn='Add to waitlist' %}
-    {% endif %}
+        {% endif %}
 
-{% endif %}
+        {% endif %}
+    </div>
+</div>
 
 {% endblock content %}

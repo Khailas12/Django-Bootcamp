@@ -8,7 +8,7 @@ class OrderForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(attrs={
             'class': 'shipping-address-class form-control',
-            'rows': 7,  # default is 10
+            'rows': 4,  # default is 10
             'placeholder': 'Shipping address'
         })
     )
@@ -17,7 +17,7 @@ class OrderForm(forms.ModelForm):
         label='',
         widget = forms.Textarea(attrs={
             'class': 'billing-address-class form-control',
-            'rows': 7,
+            'rows': 4,
             'placeholder': 'Billing address'
         })
     )

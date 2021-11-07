@@ -34,6 +34,7 @@ class Product(models.Model):
     featured = models.BooleanField(default=False)
     can_backorder = models.BooleanField(default=False)
     requires_shipping = models.BooleanField(default=False)
+    is_digital = models.BooleanField(default=False)
     
     
     @property
@@ -64,6 +65,14 @@ class Product(models.Model):
     def has_inventory(self):
         return self.inventory > 0
         # return False
+        
+    def remove_items_from_inventory(self, count=1, save=True):
+        current_inventory = self.inventory
+        current_inventory -= count
+        self.inventory = current_inventory
+        
+        if save == True:
+            self.save()
 
     def __str__(self):
         return self.title

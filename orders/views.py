@@ -57,7 +57,8 @@ def order_checkout_view(request, *args, **kwargs):
         order_obj.save()
     
         del request.session['order_id']
-        request.session['checkout_success_order_id'] = order_obj.id
+        
+        request.session['checkout_order_success_id'] = order_obj.id  # redirect to success page
         return redirect('/success')
         
     context = {
@@ -70,14 +71,21 @@ def order_checkout_view(request, *args, **kwargs):
 
 # downloading the media
 @login_required
-def download_order(required, *args, **kwargs):
-    order_id = 'abc'
+def download_order(request, order_id=None, *args, **kwargs):
+    
     # media__isnull=False makes it to validate whether the media exists or not before calling
-    queryset = Product.objects.filter(media__isnull=False)
-    product_obj = queryset.first()
+    queryset = Order.objects.filter(id=order_id, user=request.user, status='paid', product__media__isnull=False)
+    if not queryset.exists():
+        return redirect('/orders')
+
+    order_obj = queryset.first()
+    product_obj = order_obj.product
     
     if not product_obj.media:
-        raise Http404
+        return redirect('/orders')
+    
+    if order_id == None:
+        return redirect('/orders')
     
     media = product_obj.media
     product_path = media.path
@@ -102,3 +110,12 @@ def download_order(required, *args, **kwargs):
         response['Content-Disposition'] = f'attachment;{file_name}'     # this makes the browser to realize to download the file
         response['X-SendFile'] = f'{file_name}'
         return response
+    
+    
+# checkout success page
+@login_required
+def checkout_success_view(request):
+    queryset = Order.objects.filter(user=request.user, status='paid')    # fetched the status from models
+    
+    context = {'success_queryset': queryset}
+    return render(request, 'orders/success.html', context)

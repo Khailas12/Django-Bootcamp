@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.expressions import F
 from myapp.models import Product
 from django.db.models.signals import pre_save, post_save
 from decimal import Decimal
@@ -28,7 +29,7 @@ class Order(models.Model):
     shipping_address = models.TextField(blank=False, null=True)
     billing_address = models.TextField(blank=False, null=True)
     timespamp = models.DateTimeField(auto_now_add=True)      
-        
+    inventory_updated = models.BooleanField(default=False)
     
     def get_absolute_url(self):
         return f'/orders/{self.pk}'

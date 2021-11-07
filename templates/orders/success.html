@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% if not object.product.requires_shipping %}
+
+<style>
+    .shipping-address-class {
+        display: none !important;
+    }
+</style>
+
+{% endif %}
+
+{% endblock head %}
+
+{% block content %}
+
+{% for success in success_queryset %}
+
+<li>
+    {{ success.product.title }} - {{ success.total }} 
+    {% if object.is_downloadable %} 
+        <a href='{{ object.get_download_url }}'>Download</a>
+    {% endif %}
+</li>
+
+{% endfor %}
+
+{% endblock content %}

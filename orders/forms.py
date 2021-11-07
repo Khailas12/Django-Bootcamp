@@ -4,23 +4,23 @@ from .models import Order
 
 class OrderForm(forms.ModelForm):
     shipping_address = forms.CharField(
-        required=False, 
         label='',
         widget=forms.Textarea(attrs={
             'class': 'shipping-address-class form-control',
-            'rows': 3,
-            'placeholder': 'Your shipping address'
+            'rows': 7,  # default is 10
+            'placeholder': 'Shipping address'
         })
     )
     
     billing_address = forms.CharField(
         label='',
-        widget=forms.Textarea(attrs={
+        widget = forms.Textarea(attrs={
             'class': 'billing-address-class form-control',
-            'rows': 3,
-            'placeholder': 'Your billing address',
+            'rows': 7,
+            'placeholder': 'Billing address'
         })
     )
+    
     
     def __init__(self, *args, **kwargs):
         product = kwargs.pop('product') or None

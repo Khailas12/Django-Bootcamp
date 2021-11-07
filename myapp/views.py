@@ -105,8 +105,9 @@ def product_create_view(request, *args, **kwargs):
         form = ProductForm()
     
     context = {
-        'form': form
-    }
+        'form': form,
+        'user': obj.user,
+    }   
     return render(request, 'products/forms.html', context)
 
 

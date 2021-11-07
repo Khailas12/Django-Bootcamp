@@ -5,6 +5,7 @@ from .models import Order
 class OrderForm(forms.ModelForm):
     shipping_address = forms.CharField(
         label='',
+        required=False,
         widget=forms.Textarea(attrs={
             'class': 'shipping-address-class form-control',
             'rows': 7,  # default is 10
@@ -20,7 +21,6 @@ class OrderForm(forms.ModelForm):
             'placeholder': 'Billing address'
         })
     )
-    
     
     def __init__(self, *args, **kwargs):
         product = kwargs.pop('product') or None

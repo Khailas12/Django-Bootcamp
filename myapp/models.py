@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.db.models.expressions import F
 from .storages import ProtectedStorage
 
 
@@ -38,12 +37,12 @@ class Product(models.Model):
     
     
     @property
-    def digital(self):
-        return self.media != None or self.media != ''
+    def is_digital(self):
+        return self.media != None and self.media != ''
     
-    # @property
-    # def requires_shipping(self):
-    #     return not self.is_digital
+    @property
+    def requires_shipping(self):
+        return not self.is_digital
     
     @property
     def can_order(self):

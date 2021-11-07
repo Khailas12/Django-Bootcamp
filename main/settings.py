@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',   # google auth
 ]
-SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -166,3 +165,14 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SITE_ID = 1
+
+# redirects to the base route after succesful login or logout
+LOGIN_REDIRECT_URL_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True

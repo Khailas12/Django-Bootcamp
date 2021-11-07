@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'emails',
     'accounts',
     'orders',
-    'google_auth',
+    # 'google_auth',
     
     'allauth',
     'allauth.account',

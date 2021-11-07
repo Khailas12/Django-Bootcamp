@@ -6,20 +6,10 @@
     <div class='col'>
         {% include 'products/snippets/product_detail.html' with object=product %}
     </div>
-        
-    <div class='col'>
-        {% if can_order %}
-        <a class='btn btn-primary' href='/checkout'>${{ product.price }}
-            {{ product.order_btn_title }}
-        </a>
-        
-        {% else %}
 
-        {% if form %}
-        {% include 'snippets/form.html' with form=form submit_btn='Add to waitlist' %}
-        {% endif %}
+    <div class='col d-md-block d-none'> <!--this displays medium and anything below medium gets excluded-->
+        {% include 'products/snippets/order_btn.html' with object=product can_order=can_order form=form %}
 
-        {% endif %}
     </div>
 </div>
 

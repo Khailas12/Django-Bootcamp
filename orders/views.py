@@ -63,7 +63,7 @@ def order_checkout_view(request, *args, **kwargs):
     context = {
         'form': form,
         'object': order_obj,
-        'digital': product.digital,
+        'digital': product.is_digital,
         }
     return render(request, 'orders/checkout.html', context)
 

@@ -5,6 +5,7 @@ from myapp.models import Product
 from django.db.models.signals import pre_save, post_save
 from decimal import Decimal
 
+
 User = get_user_model()
 
 ORDER_STATUS_CHOICES = (
@@ -13,8 +14,7 @@ ORDER_STATUS_CHOICES = (
     ('paid', 'Paid'),
     ('shipped', 'Shippied'),
     ('refunded', 'Refunded')
-    ) 
-
+    )
 
 class Order(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)    # set_null -> if user is deleted, the order will not be deleted

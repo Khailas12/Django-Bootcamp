@@ -166,7 +166,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SITE_ID = 1
+SITE_ID = 2
 
 # redirects to the base route after succesful login or logout
 LOGIN_REDIRECT_URL_URL = '/'
